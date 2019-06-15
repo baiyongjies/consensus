@@ -878,12 +878,12 @@ bool POV::validateNDNTransaction(rapidjson::Value &data)
 		//delete &old_data;
 		return true;
 	}
-//	else if(command=="Query")
-//	{
-//		if(!ndn_data.HasMember("QueryCode"))
-//			return false;
-//		return true;
-//	}
+	else if(command=="Log")
+	{
+		if(!ndn_data.HasMember("QueryCode"))
+			return false;
+		return true;
+	}
 	else
 	{
 		return false;
