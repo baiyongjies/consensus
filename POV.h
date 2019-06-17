@@ -29,6 +29,7 @@
 #include<boost/array.hpp>
 #include<boost/system/system_error.hpp>
 #include <boost/asio.hpp>
+#include <boost/algorithm/string.hpp>
 #include <thread>
 #include <queue>
 #include "LRU.h"

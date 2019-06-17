@@ -533,7 +533,7 @@ ErrorMessage POV::handleNDNQuery(rapidjson::Document& doc)
 			delete &old_data;
 			return msg;
 		}
-		else if (query_code == 1)
+		else if (query_code == 1)                //根据公钥筛选标识信息
 		{
 			std::string pubkey = data["pubkey"].GetString();
 			if (!blockchain.hasData("pubkey", pubkey, "NDN"))
@@ -552,22 +552,154 @@ ErrorMessage POV::handleNDNQuery(rapidjson::Document& doc)
 			delete &old_data;
 			return msg;
 		}
-		else if (query_code == 2)
+		else if (query_code == 2)                //根据前缀筛选用户信息
 		{
-			std::string prefix = data["prefix"].GetString();
-			if (!blockchain.hasData("prefix", prefix, "NDN"))
+			std::string prefix = data["content"].GetString();
+			if (!blockchain.hasData("prefix", prefix, "NDN-USER"))
 			{
 				msg.errcode = 401;
 				msg.msg = "数据库中不存在该prefix";
 				return msg;
 			}
 			//返回查询结果
-			rapidjson::Document& old_data = blockchain.getDataFromDatabase("prefix", prefix, "NDN", true);
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("prefix", prefix, "NDN-USER", true);
 			msg.errcode = 400;
 			msg.msg = getDocumentString(old_data);
 			msg.is_json = true;
 			old_data.SetNull();
 			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		//added by byj
+		else if (query_code == 3)                //根据公钥筛选用户信息
+		{
+			std::string pubkey = data["content"].GetString();
+			if (!blockchain.hasData("pubkey", pubkey, "NDN-USER"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该pubkey";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("pubkey", pubkey, "NDN-USER", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
+			old_data.SetNull();
+			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		else if (query_code == 4)                //根据IP筛选标识信息
+		{
+			std::string IP = data["content"].GetString();
+			if (!blockchain.hasData("IP", IP, "NDN"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该IP";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("IP", IP, "NDN", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
+			old_data.SetNull();
+			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		else if (query_code == 5)                //根据用户名筛选注册信息
+		{
+			std::string user = data["content"].GetString();
+			if (!blockchain.hasData("user", user, "NDN-USER"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该用户名";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("user", user, "NDN-USER", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
+			old_data.SetNull();
+			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		else if (query_code == 6)                //根据描述信息筛选注册信息
+		{
+			std::string description = data["content"].GetString();
+			if (!blockchain.hasData("description", description, "NDN-USER"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该描述信息";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("description", description, "NDN-USER", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
+			old_data.SetNull();
+			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		else if (query_code == 7)                //根据电话筛选注册信息
+		{
+			std::string telephone = data["content"].GetString();
+			if (!blockchain.hasData("telephone", telephone, "NDN-USER"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该电话";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("telephone", telephone, "NDN-USER", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
+			old_data.SetNull();
+			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		else if (query_code == 8)                //根据姓名筛选注册信息
+		{
+			std::string name = data["content"].GetString();
+			if (!blockchain.hasData("name", name, "NDN-USER"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该姓名";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("name", name, "NDN-USER", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
+			old_data.SetNull();
+			old_data.GetAllocator().Clear();
+			delete &old_data;
+			return msg;
+		}
+		else if (query_code == 9)                //根据身份证号筛选注册信息
+		{
+			std::string ID = data["content"].GetString();
+			if (!blockchain.hasData("ID", ID, "NDN-USER"))
+			{
+				msg.errcode = 401;
+				msg.msg = "数据库中不存在该身份证号";
+				return msg;
+			}
+			//返回查询结果
+			rapidjson::Document& old_data = blockchain.getDataFromDatabase("ID", ID, "NDN-USER", true);
+			msg.errcode = 400;
+			msg.msg = getDocumentString(old_data);
+			msg.is_json = true;
 			old_data.SetNull();
 			old_data.GetAllocator().Clear();
 			delete &old_data;

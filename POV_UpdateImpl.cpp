@@ -181,6 +181,10 @@ void POV::updateNDNTransaction(rapidjson::Value& tx)
 		//std::cout<<"avatar数据："<<avatar<<"\n";
 		std::string iris = ndn_data["iris"].GetString();
 		//std::cout<<"iris数据："<<iris<<"\n";
+
+		vector<std::string> vec;
+		boost::split(vec, real_msg, boost::is_any_of(","), boost::token_compress_on);
+
 		rapidjson::Document doc;
 		doc.SetObject();
 		rapidjson::Document::AllocatorType& allocator = doc.GetAllocator();
@@ -200,6 +204,18 @@ void POV::updateNDNTransaction(rapidjson::Value& tx)
 		doc.AddMember("avatar", avatar_value, allocator);
 		rapidjson::Value iris_value(iris.c_str(), iris.size(), allocator);
 		doc.AddMember("iris", iris_value, allocator);
+
+		rapidjson::Value user(vec[0].c_str(), vec[0].size(), allocator);
+		doc.AddMember("user", user, allocator);
+		rapidjson::Value description(vec[1].c_str(), vec[1].size(), allocator);
+		doc.AddMember("description", description, allocator);
+		rapidjson::Value telephone(vec[2].c_str(), vec[2].size(), allocator);
+		doc.AddMember("telephone", telephone, allocator);
+		rapidjson::Value name(vec[3].c_str(), vec[3].size(), allocator);
+		doc.AddMember("name", name, allocator);
+		rapidjson::Value ID(vec[4].c_str(), vec[4].size(), allocator);
+		doc.AddMember("ID", ID, allocator);
+
 		//std::cout<<"将用户数据存储到数据库中\n";
 		int result = blockchain.saveDataToDatabase(doc, "NDN-USER", false, "pubkey", pubkey);
 		if (result >= 0)
